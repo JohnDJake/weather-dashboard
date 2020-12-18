@@ -50,8 +50,6 @@ function updateWeather(city) {
                 $(`.forecast-temp.day${i}`).text(forecast.temp.max);
                 $(`.forecast-humidity.day${i}`).text(forecast.humidity);
             }
-
-            console.log(weatherResponse);
         });
     });
 
