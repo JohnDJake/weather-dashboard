@@ -18,6 +18,7 @@ function updateWeather(city) {
             // not all results will have city and state_code/state values, only add if they exist
             if (coordResult.components.city !== undefined) { cityFullName += coordResult.components.city + ", "; }
             else if (coordResult.components.town !== undefined) { cityFullName += coordResult.components.town + ", "; }
+            else if (coordResult.components.village !== undefined) { cityFullName += coordResult.components.village + ", "; }
             if (coordResult.components.state_code !== undefined) { cityFullName += coordResult.components.state_code + ", "; }
             else if (coordResult.components.state !== undefined) { cityFullName += coordResult.components.state + ", "; }
             // results should always have a country code, add that
