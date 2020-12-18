@@ -21,9 +21,9 @@ function updateWeather(city) {
             if (!searchHistory.includes(cityFullName)) {
                 searchHistory.push(cityFullName);
                 localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
-                localStorage.setItem("weatherSearchLast", cityFullName);
                 displayHistory();
             }
+            localStorage.setItem("weatherSearchLast", cityFullName);
             // Get the weather data using the coordinates from OpenCage
             $.ajax({
                 url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coordResult.geometry.lat}&lon=${coordResult.geometry.lng}&exclude=minutely,hourly,alerts&units=imperial&appid=d299da3abaf6094099f1ec02d54a1339`,
@@ -78,8 +78,12 @@ function displayHistory() {
     
     // Loop through search history
     for (var i = 0; i < searchHistory.length; i++) {
-        // Create button, add classes, set text, and append to list-group
-        $("<button>").addClass("list-group-item list-group-item-action history").text(searchHistory[i]).appendTo($("#history-list"));
+        // Create button group div, assign class, and append to the list
+        var group = $("<div>").addClass("btn-group").appendTo("#history-list");
+        // Create button, add classes, set text, and append to the group
+        $("<button>").addClass("btn btn-light bg-white text-left col-10 history").text(searchHistory[i]).appendTo(group);
+        // Create delete button, add classes, set text, set data-index value, and append to the group
+        $("<button>").addClass("btn btn-secondary col-2 delete").html("&times;").attr("data-index", i).appendTo(group);
     }
 }
 
@@ -90,6 +94,12 @@ $(document).ready(function () {
     $("#history-list").on("click", ".history", function (event) {
         updateWeather($(this).text());
     });
+
+    $("#history-list").on("click", ".delete", function(event) {
+        searchHistory.splice(parseInt($(this).attr("data-index")), 1);
+        displayHistory();
+        localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
+    })
 
     // If the user has used this weather app before, load their most recent search
     var searchLast = localStorage.getItem("weatherSearchLast");
