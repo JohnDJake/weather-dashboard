@@ -23,13 +23,13 @@ function updateWeather(city) {
             else if (coordResult.components.state !== undefined) { cityFullName += coordResult.components.state + ", "; }
             // results should always have a country code, add that
             cityFullName += coordResult.components["ISO_3166-1_alpha-2"];
-            // Store the city name
-            if (!searchHistory.includes(cityFullName)) {
-                searchHistory.push(cityFullName);
+            // Store the city name and coordinates
+            if (!searchHistory.map(el => el.display).includes(cityFullName)) {
+                searchHistory.push({ display: cityFullName, lat: coordResult.geometry.lat, lng: coordResult.geometry.lng });
                 localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
                 displayHistory();
             }
-            localStorage.setItem("weatherSearchLast", cityFullName);
+            localStorage.setItem("weatherSearchLast", `${coordResult.geometry.lat},${coordResult.geometry.lng}`);
             // Get the weather data using the coordinates from OpenCage
             $.ajax({
                 url: `https://api.openweathermap.org/data/2.5/onecall?lat=${coordResult.geometry.lat}&lon=${coordResult.geometry.lng}&exclude=minutely,hourly,alerts&units=imperial&appid=d299da3abaf6094099f1ec02d54a1339`,
@@ -87,8 +87,9 @@ function displayHistory() {
     for (var i = 0; i < searchHistory.length; i++) {
         // Create button group div, assign class, and append to the list
         var group = $("<div>").addClass("btn-group").appendTo("#history-list");
-        // Create button, add classes, set text, and append to the group
-        $("<button>").addClass("btn btn-light bg-white text-left col-10 history").text(searchHistory[i]).appendTo(group);
+        // Create button, add classes, set text, set lat and lng attributes, and append to the group
+        $("<button>").addClass("btn btn-light bg-white text-left col-10 history").text(searchHistory[i].display)
+            .attr("data-lat", searchHistory[i].lat).attr("data-lng", searchHistory[i].lng).appendTo(group);
         // Create delete button, add classes, set text, set data-index value, and append to the group
         $("<button>").addClass("btn btn-secondary col-2 delete").html("&times;").attr("data-index", i).appendTo(group);
     }
@@ -99,7 +100,7 @@ $(document).ready(function () {
     displayHistory();
 
     $("#history-list").on("click", ".history", function (event) {
-        updateWeather($(this).text());
+        updateWeather(`${$(this).attr("data-lat")},${$(this).attr("data-lng")}`);
     });
 
     $("#history-list").on("click", ".delete", function (event) {
