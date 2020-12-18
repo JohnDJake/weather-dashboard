@@ -10,13 +10,17 @@ function updateWeather(city) {
         const coordResult = coordResponse.results[0];
         // Make sure we found a valid city
         // TODO use Bootstrap alert instead of vanilla JS alert
-        if (coordResult.components.city === undefined
-            || coordResult.components.state_code === undefined
-            || coordResult.components["ISO_3166-1_alpha-2"] === undefined) {
+        if (coordResult === undefined) {
             alert("We couldn't find a valid city from that search");
         } else {
             // City name formatted to display and store
-            const cityFullName = `${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-2"]}`;
+            var cityFullName = "";
+            // not all results will have city and state_code/state values, only add if they exist
+            if (coordResult.components.city !== undefined) { cityFullName += coordResult.components.city + ", "; }
+            if (coordResult.components.state_code !== undefined) { cityFullName += coordResult.components.state_code + ", "; }
+            else if (coordResult.components.state !== undefined) { cityFullName += coordResult.components.state + ", "; }
+            // results should always have a country code, add that
+            cityFullName += coordResult.components["ISO_3166-1_alpha-2"];
             // Store the city name
             if (!searchHistory.includes(cityFullName)) {
                 searchHistory.push(cityFullName);
@@ -45,6 +49,7 @@ function updateWeather(city) {
                 $("#wind-today").text(current.wind_speed);
                 $("#UV-today").text(current.uvi);
                 // UV badge color depends on the UV
+                $("#UV-today").removeClass("badge-success badge-warning badge-danger");
                 if (current.uvi < 3) $("#UV-today").addClass("badge-success");
                 else if (current.uvi < 6) $("#UV-today").addClass("badge-warning");
                 else $("#UV-today").addClass("badge-danger");
