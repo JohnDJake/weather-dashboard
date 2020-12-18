@@ -1,3 +1,7 @@
 .forecast-card {
     width: 19%;
 }
+
+.form-control::placeholder {
+    color: #ccc;
+}
