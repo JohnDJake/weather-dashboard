@@ -17,6 +17,7 @@ function updateWeather(city) {
             var cityFullName = "";
             // not all results will have city and state_code/state values, only add if they exist
             if (coordResult.components.city !== undefined) { cityFullName += coordResult.components.city + ", "; }
+            else if (coordResult.components.town !== undefined) { cityFullName += coordResult.components.town + ", "; }
             if (coordResult.components.state_code !== undefined) { cityFullName += coordResult.components.state_code + ", "; }
             else if (coordResult.components.state !== undefined) { cityFullName += coordResult.components.state + ", "; }
             // results should always have a country code, add that
@@ -80,7 +81,7 @@ function updateWeather(city) {
 function displayHistory() {
     // Empty the list-group
     $("#history-list").empty();
-    
+
     // Loop through search history
     for (var i = 0; i < searchHistory.length; i++) {
         // Create button group div, assign class, and append to the list
@@ -100,7 +101,7 @@ $(document).ready(function () {
         updateWeather($(this).text());
     });
 
-    $("#history-list").on("click", ".delete", function(event) {
+    $("#history-list").on("click", ".delete", function (event) {
         searchHistory.splice(parseInt($(this).attr("data-index")), 1);
         displayHistory();
         localStorage.setItem("weatherSearchHistory", JSON.stringify(searchHistory));
