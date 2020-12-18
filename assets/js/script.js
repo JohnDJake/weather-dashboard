@@ -58,4 +58,10 @@ function updateWeather(city) {
 
 $(document).ready(function () {
     updateWeather("Seattle");
+
+    $("#search-form").submit(function(event) {
+        event.preventDefault();
+        updateWeather($("#city-search").val());
+        $("#city-search").val("");
+    })
 })
