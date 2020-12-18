@@ -15,7 +15,7 @@ function updateWeather(city) {
             const current = weatherResponse.current;
             
             // Set the title based off the location info from OpenCage and the date from OpenWeather
-            $("#title-today").text(`${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-3"]} (${DateTime.fromSeconds(current.dt).toLocaleString()})`);
+            $("#title-today").text(`${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-3"]} (${DateTime.fromSeconds(current.dt).setZone(weatherResponse.timezone).toLocaleString()})`);
 
             // Set the icon for the current weather and set title and alt text to the description
             $("#icon-today").attr("src", `https://openweathermap.org/img/wn/${current.weather[0].icon}.png`);
@@ -39,7 +39,7 @@ function updateWeather(city) {
                 const forecast = weatherResponse.daily[i];
 
                 // Set the title to the date
-                $(`.card-title.day${i}`).text(DateTime.fromSeconds(forecast.dt).toLocaleString());
+                $(`.card-title.day${i}`).text(DateTime.fromSeconds(forecast.dt).setZone(weatherResponse.timezone).toLocaleString());
 
                 // Display the weather icon and set title and alt text to the description
                 $(`.forecast-icon.day${i}`).attr("src", `https://openweathermap.org/img/wn/${forecast.weather[0].icon}.png`);
