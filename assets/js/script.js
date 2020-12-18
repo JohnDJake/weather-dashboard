@@ -16,7 +16,7 @@ function updateWeather(city) {
             alert("We couldn't find a valid city from that search");
         } else {
             // City name formatted to display and store
-            const cityFullName = `${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-3"]}`;
+            const cityFullName = `${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-2"]}`;
             // Store the city name
             if (!searchHistory.includes(cityFullName)) {
                 searchHistory.push(cityFullName);
