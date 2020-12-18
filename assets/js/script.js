@@ -14,8 +14,12 @@ function updateWeather(city) {
         }).then(function (weatherResponse) {
             // Set the title based off the location info from OpenCage and the date from OpenWeather
             $("#title-today").text(`${coordResult.components.city}, ${coordResult.components.state_code},  ${coordResult.components["ISO_3166-1_alpha-3"]} (${DateTime.fromSeconds(weatherResponse.current.dt).toLocaleString()})`);
-            console.log(weatherResponse);
 
+            // Set the icon for the current weather
+            $("#icon-today").attr("src", `https://openweathermap.org/img/wn/${weatherResponse.current.weather[0].icon}.png`);
+            $("#icon-today").attr("alt", weatherResponse.current.weather[0].description);
+            $("#icon-today").attr("title", weatherResponse.current.weather[0].description);
+            
             // Display today's weather
             $("#temp-today").text(weatherResponse.current.temp);
             $("#humidity-today").text(weatherResponse.current.humidity);
@@ -24,6 +28,8 @@ function updateWeather(city) {
             if (weatherResponse.current.uvi < 3) $("#UV-today").addClass("badge-success");
             else if (weatherResponse.current.uvi < 6) $("#UV-today").addClass("badge-warning");
             else $("#UV-today").addClass("badge-danger");
+            
+            console.log(weatherResponse);
         });
     });
 
