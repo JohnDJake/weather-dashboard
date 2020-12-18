@@ -12,7 +12,7 @@ function updateWeather(city) {
         // TODO use Bootstrap alert instead of vanilla JS alert
         if (coordResult.components.city === undefined
             || coordResult.components.state_code === undefined
-            || coordResult.components["ISO_3166-1_alpha-3"] === undefined) {
+            || coordResult.components["ISO_3166-1_alpha-2"] === undefined) {
             alert("We couldn't find a valid city from that search");
         } else {
             // City name formatted to display and store
