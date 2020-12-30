@@ -23,7 +23,7 @@ Enter a location in the search field to see the weather at that location. Click 
 * Geodata retreived using [OpenCage Geocoding API](https://opencagedata.com/).
 * Weather data from [OpenWeatherMap API](https://openweathermap.org/).
 * Dates displayed using [Luxon](https://moment.github.io/luxon/index.html).
-* Thanks to Anthony Mitchell, [Kevin Willig](https://github.com/Kray93), [Tim Keller](https://github.com/tmkeller), [S.D. Mullaney](https://github.com/seagda), and Mitch Bean for helping by trying to break the location search!
+* Thanks to Anthony Mitchell, [Kevin Willig](https://github.com/Kray93), [Tim Keller](https://github.com/tmkeller), [S.D. Mullaney](https://github.com/seagda), and [Mitch Bean](https://github.com/mitchlltbean) for helping by trying to break the location search!
 
 
 ## License
